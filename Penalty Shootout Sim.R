@@ -82,3 +82,48 @@ test_func <- function(){
   
   }
 }
+
+
+
+
+
+
+
+penalty_shot <- function(success_probability) {
+  return(runif(1) < success_probability)
+}
+
+simulate_penalty_shootout <- function() {
+  player_goals <- 0
+  computer_goals <- 0
+  rounds_played <- 0
+  
+  while ((rounds_played < 5) || (player_goals == computer_goals)) {
+    rounds_played <- rounds_played + 1
+    
+    player_scored <- penalty_shot(0.75)
+    computer_scored <- penalty_shot(0.75)
+    
+    if (player_scored) {
+      player_goals <- player_goals + 1
+      cat(paste("Round", rounds_played, ": You scored!\n"))
+    } else {
+      cat(paste("Round", rounds_played, ": You missed.\n"))
+    }
+    
+    if (computer_scored) {
+      computer_goals <- computer_goals + 1
+      cat(paste("Round", rounds_played, ": Computer scored!\n"))
+    } else {
+      cat(paste("Round", rounds_played, ": Computer missed.\n"))
+    }
+  }
+  
+  if (player_goals > computer_goals) {
+    cat("You win the penalty shootout!\n")
+  } else {
+    cat("Computer wins the penalty shootout!\n")
+  }
+}
+
+simulate_penalty_shootout()
