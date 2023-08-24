@@ -94,36 +94,38 @@ penalty_shot <- function(success_probability) {
 }
 
 simulate_penalty_shootout <- function() {
-  player_goals <- 0
-  computer_goals <- 0
+  team_a_goals <- 0
+  team_b_goals <- 0
   rounds_played <- 0
   
-  while ((rounds_played < 5) || (player_goals == computer_goals)) {
+  while ((rounds_played < 5) || (team_a_goals == team_b_goals)) {
     rounds_played <- rounds_played + 1
     
-    player_scored <- penalty_shot(0.75)
-    computer_scored <- penalty_shot(0.75)
+    team_a_scored <- penalty_shot(0.75)
+    team_b_scored <- penalty_shot(0.75)
     
-    if (player_scored) {
-      player_goals <- player_goals + 1
-      cat(paste("Round", rounds_played, ": You scored!\n"))
+    if (team_a_scored) {
+      team_a_goals <- team_a_goals + 1
+      cat(paste("Round", rounds_played, ": Team A scored!\n"))
     } else {
-      cat(paste("Round", rounds_played, ": You missed.\n"))
+      cat(paste("Round", rounds_played, ": Team A missed.\n"))
     }
     
-    if (computer_scored) {
-      computer_goals <- computer_goals + 1
-      cat(paste("Round", rounds_played, ": Computer scored!\n"))
+    if (team_b_scored) {
+      team_b_goals <- team_b_goals + 1
+      cat(paste("Round", rounds_played, ": Team B scored!\n"))
     } else {
-      cat(paste("Round", rounds_played, ": Computer missed.\n"))
+      cat(paste("Round", rounds_played, ": Team B missed.\n"))
     }
   }
   
-  if (player_goals > computer_goals) {
-    cat("You win the penalty shootout!\n")
+  if (team_a_goals > team_b_goals) {
+    cat("Team A wins the penalty shootout!\n")
   } else {
-    cat("Computer wins the penalty shootout!\n")
+    cat("Team B wins the penalty shootout!\n")
   }
 }
 
 simulate_penalty_shootout()
+
+((-2:2) >= 0) || ((-2:2) <= 0)
