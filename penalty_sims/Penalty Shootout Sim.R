@@ -129,3 +129,19 @@ simulate_penalty_shootout <- function() {
 simulate_penalty_shootout()
 
 ((-2:2) >= 0) || ((-2:2) <= 0)
+
+
+
+##### Way to have a better estimate of percentages for each player
+kane <- fb_player_match_logs("https://fbref.com/en/players/21a66f6a/Harry-Kane", season_end_year = "2023", 
+                             stat_type = "summary")
+
+
+
+pens <- kane %>% filter(Comp == "Premier League") %>% select(PK_Performance, PKatt_Performance)
+# PERCENTAGE OF PENS SCORED
+sum(pens$PK_Performance) / sum(pens$PKatt_Performance)
+# use this number prob in the penalthy shot function
+
+fn = ecdf(gls_vec$Gls_Performance)
+fn(gls_vec$Gls_Performance)
