@@ -77,13 +77,36 @@ test_func <- function(){
   team_a_goals = 0
   team_b_goals = 0
   rounds_played = 0
+  total_shots = 0
   
-  while(rounds_played < 5 | team_a_goals == team_b_goals){
-  
+  while((rounds_played < 5) || (team_a_goals == team_b_goals)){
+    rounds_played <- rounds_played + 1
+    
+    team_a_scored <- penalty_shot(0.75)
+    total_shots = total_shots + 1
+    
+    team_b_scored <- penalty_shot(0.75)
+    total_shots = total_shots + 1
+    
+    if (team_a_scored) {
+      team_a_goals <- team_a_goals + 1
+    }
+    
+    if (team_b_scored) {
+      team_b_goals <- team_b_goals + 1
+    }
+    
+    if (abs(team_a_goals - team_b_goals) > (5 - rounds_played)) {
+      break
+    }
   }
+  
+  return(c("Team A Goals" = team_a_goals,
+           "Team B Goals" = team_b_goals,
+           "Total Shots" = total_shots))
 }
 
-
+test_func()
 
 
 
@@ -106,24 +129,16 @@ simulate_penalty_shootout <- function() {
     
     if (team_a_scored) {
       team_a_goals <- team_a_goals + 1
-      cat(paste("Round", rounds_played, ": Team A scored!\n"))
     } else {
-      cat(paste("Round", rounds_played, ": Team A missed.\n"))
     }
     
     if (team_b_scored) {
       team_b_goals <- team_b_goals + 1
-      cat(paste("Round", rounds_played, ": Team B scored!\n"))
     } else {
-      cat(paste("Round", rounds_played, ": Team B missed.\n"))
     }
   }
   
-  if (team_a_goals > team_b_goals) {
-    cat("Team A wins the penalty shootout!\n")
-  } else {
-    cat("Team B wins the penalty shootout!\n")
-  }
+  return(c(team_a_goals, team_b_goals, rounds_played))
 }
 
 simulate_penalty_shootout()
