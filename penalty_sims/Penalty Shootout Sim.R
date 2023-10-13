@@ -121,8 +121,9 @@ simulate_penalty_shootout <- function() {
   team_b_goals <- 0
   rounds_played <- 0
   
-  while ((rounds_played < 5) | 
-         (team_a_goals == team_b_goals)
+  while (((rounds_played < 5) | 
+         (team_a_goals == team_b_goals)) &
+         (abs(team_a_goals - team_b_goals) <= (5 - rounds_played))
          ) {
     rounds_played <- rounds_played + 1
     
@@ -140,8 +141,6 @@ simulate_penalty_shootout <- function() {
 }
 
 simulate_penalty_shootout()
-
-# ((-2:2) >= 0) || ((-2:2) <= 0)
 
 
 
