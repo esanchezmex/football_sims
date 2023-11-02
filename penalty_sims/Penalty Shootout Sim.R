@@ -120,6 +120,7 @@ simulate_penalty_shootout <- function() {
   team_a_goals <- 0
   team_b_goals <- 0
   rounds_played <- 0
+  total_shots <- 0
   
   while (((rounds_played < 5) | 
          (team_a_goals == team_b_goals)) &
@@ -128,7 +129,9 @@ simulate_penalty_shootout <- function() {
     rounds_played <- rounds_played + 1
     
     team_a_scored <- penalty_shot(0.75)
+    total_shots <- total_shots + 1
     team_b_scored <- penalty_shot(0.75)
+    total_shots <- total_shots + 1
     
     if (team_a_scored) {
       team_a_goals <- team_a_goals + 1
@@ -137,7 +140,7 @@ simulate_penalty_shootout <- function() {
     }
   }
   
-  return(c(team_a_goals, team_b_goals, rounds_played))
+  return(c(team_a_goals, team_b_goals, rounds_played, total_shots))
 }
 
 simulate_penalty_shootout()
