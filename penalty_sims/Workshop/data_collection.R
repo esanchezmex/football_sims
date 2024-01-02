@@ -16,7 +16,7 @@ arg_avg <- arg %>%
   group_by(player_name) %>% 
   summarise(pens_made = sum(PK, na.rm = T),
             pens_att = sum(PKatt, na.rm = T)) %>% 
-  filter(pens_att != 0 | pens_made != 0) %>% 
+  filter(pens_att != 0) %>% 
   mutate(pct = pens_made / pens_att) %>% 
   pull(pct) %>% 
   mean()
@@ -25,11 +25,10 @@ arg_pens <- arg %>%
   group_by(player_name) %>% 
   summarise(pens_made = sum(PK, na.rm = T),
             pens_att = sum(PKatt, na.rm = T)) %>%
-  filter(pens_att != 0 | pens_made != 0) %>% 
+  filter(pens_att != 0) %>% 
   mutate(pct = pens_made / pens_att) %>% 
   # ASK FOR DIFFERENT WAYS TO HANDLE SMALL SAMPLE SIZES, CONTINUE WITH ONE AND SAY WELCOME TO TRY OUT YOURSELF
   mutate(pct = ifelse(pct == 1, arg_avg, pct)) %>% #method to handle small sample sizes
-  select(player_name, pct) %>% 
   arrange(desc(pct))
 
 
@@ -44,7 +43,7 @@ fra_avg <- fra %>%
   group_by(player_name) %>% 
   summarise(pens_made = sum(PK, na.rm = T),
             pens_att = sum(PKatt, na.rm = T)) %>% 
-  filter(pens_att != 0 | pens_made != 0) %>% 
+  filter(pens_att != 0) %>% 
   mutate(pct = pens_made / pens_att) %>% 
   pull(pct) %>% 
   mean()
@@ -53,11 +52,11 @@ fra_pens <- fra %>%
   group_by(player_name) %>% 
   summarise(pens_made = sum(PK, na.rm = T),
             pens_att = sum(PKatt, na.rm = T)) %>%
-  filter(pens_att != 0 | pens_made != 0) %>% 
+  filter(pens_att != 0) %>% 
   mutate(pct = pens_made / pens_att) %>% 
   # ASK FOR DIFFERENT WAYS TO HANDLE SMALL SAMPLE SIZES, CONTINUE WITH ONE AND SAY WELCOME TO TRY OUT YOURSELF
   mutate(pct = ifelse(pct == 1, fra_avg, pct)) %>% #method to handle small sample sizes
-  select(player_name, pct)
+  arrange(desc(pct))
 
 
 
@@ -68,9 +67,6 @@ lineups <- as_tibble(lineups)
 
 
 # QUESTION: What is the ideal lineup for each team based on their percentages
-
-
-
 
 
 
