@@ -3,8 +3,7 @@
 # Arg vs Fra WCF
 
 library(worldfootballR)
-library(dplyr)
-library(gt)
+library(tidyverse)
 
 # Argentina Team 
 arg_urls <- fb_player_urls("https://fbref.com/en/squads/f9fddd6e/Argentina-Men-Stats")
@@ -65,6 +64,12 @@ wc_urls <- fb_match_urls(country = "", gender = "M", season_end_year = 2022, tie
 lineups <- fb_match_lineups(match_url = wc_urls[length(wc_urls)])
 lineups <- as_tibble(lineups)
 
+
+# Create datastrucutre needed for functions
+arg_v_fra <- rbind(arg_pens, fra_pens)
+colnames(arg_v_fra)
+team_a_players <- c("Lionel Messi", "Paulo Dybala", "Julián Álvarez", "Leandro Paredes", "Ángel Di María", "Lautaro Martínez", "Enzo Fernández")
+team_b_players <- c("Kylian Mbappé", "Olivier Giroud", "Karim Benzema", "Antoine Griezmann", "Jordan Veretout", "Wissam Ben Yedder", "Randal Kolo Muani")
 
 # QUESTION: What is the ideal lineup for each team based on their percentages
 
