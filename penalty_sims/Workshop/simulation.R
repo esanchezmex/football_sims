@@ -69,9 +69,25 @@ mean(pens$Total.Shots)
     #     IMPLEMENTATION WITH REAL LIFE VALUES      #
 ################################################################
 
+# Selecting lineups to start
+
+# check lineups for players to create order for penalties
+wc_urls <- fb_match_urls(country = "", gender = "M", season_end_year = 2022, tier = "", non_dom_league_url = "https://fbref.com/en/comps/1/history/World-Cup-Seasons")
+lineups <- fb_match_lineups(match_url = wc_urls[length(wc_urls)])
+lineups <- as_tibble(lineups)
+
+
+
+team_a_players <- c("Lionel Messi", "Rodrigo De Paul", "Paulo Dybala", "Leandro Paredes", "Gonzalo Montiel", # Actual players to participate
+                    "Lautaro Martínez", "Enzo Fernández", "Nicolás Otamendi", "Alexis Mac Allister") # Extra players in case of more than 5 rounds
+
+team_b_players <- c("Kylian Mbappé", "Kingsley Coman", "Aurélien Tchouaméni", "Randal Kolo Muani", # Actual players to participate (1 less bc fra lost before kicking their last pen)
+                    "Theo Hernández", "Benjamin Pavard", "Olivier Giroud", "Antoine Griezmann") # Extra players in case of more than 5 rounds
+
+
 penalty_shot <- function(player_name, players_df) {
-  success_probability <- players_df$pct[players_df$player_name == player_name]
-  return(runif(1) < success_probability)
+  player_probability <- players_df$pct[players_df$player_name == player_name]
+  return(runif(1) < player_probability)
 }
 
 # Simulate a penalty shootout
@@ -91,7 +107,7 @@ simulate_penalty_shootout <- function(team_a_players, team_b_players, players_df
       team_a_goals <- team_a_goals + ifelse(penalty_shot(team_a_players[player_index_a], players_df), 1, 0)
       team_a_shots <- team_a_shots + 1
       
-      if (rounds_played >= 5 && team_a_goals - team_b_goals > 5 - rounds_played) {
+      if (rounds_played >= 5 && team_a_goals - team_b_goals > 5 - rounds_played) {# quitar la primera condicion (o poner or)
         break
       }
     }
@@ -100,7 +116,7 @@ simulate_penalty_shootout <- function(team_a_players, team_b_players, players_df
       team_b_goals <- team_b_goals + ifelse(penalty_shot(team_b_players[player_index_b], players_df), 1, 0)
       team_b_shots <- team_b_shots + 1
       
-      if (rounds_played >= 5 && team_b_goals - team_a_goals > 5 - rounds_played) {
+      if (rounds_played >= 5 && team_b_goals - team_a_goals > 5 - rounds_played) {# quitar la primera condicion (o poner or)
         break
       }
     }
@@ -122,12 +138,10 @@ simulate_penalty_shootout <- function(team_a_players, team_b_players, players_df
 
 simulate_penalty_shootout(team_a_players, team_b_players, arg_v_fra)
 
-nExperiments = 10000
+nExperiments = 5000
 pens = data.frame(t(replicate(nExperiments, simulate_penalty_shootout(team_a_players, team_b_players, arg_v_fra))))
 mean(pens$Team.A.Goals)
-mean(pens$Team.A.Shots)
 mean(pens$Team.B.Goals)
-mean(pens$Team.B.Shots)
 mean(pens$Total.Shots)
 
 

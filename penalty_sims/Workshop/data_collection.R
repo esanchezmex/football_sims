@@ -30,6 +30,8 @@ arg_pens <- arg %>%
   mutate(pct = ifelse(pct == 1, arg_avg, pct)) %>% #method to handle small sample sizes
   arrange(desc(pct))
 
+# Usar xG penales general (media)
+
 
 
 # France Team
@@ -58,21 +60,7 @@ fra_pens <- fra %>%
   arrange(desc(pct))
 
 
-
-# check lineups for players to create order for penalties
-wc_urls <- fb_match_urls(country = "", gender = "M", season_end_year = 2022, tier = "", non_dom_league_url = "https://fbref.com/en/comps/1/history/World-Cup-Seasons")
-lineups <- fb_match_lineups(match_url = wc_urls[length(wc_urls)])
-lineups <- as_tibble(lineups)
-
-
-# Create datastrucutre needed for functions
+# Create data strucutre needed for functions
 arg_v_fra <- rbind(arg_pens, fra_pens)
-colnames(arg_v_fra)
-team_a_players <- c("Lionel Messi", "Paulo Dybala", "Julián Álvarez", "Leandro Paredes", "Ángel Di María", "Lautaro Martínez", "Enzo Fernández")
-team_b_players <- c("Kylian Mbappé", "Olivier Giroud", "Karim Benzema", "Antoine Griezmann", "Jordan Veretout", "Wissam Ben Yedder", "Randal Kolo Muani")
-
-# QUESTION: What is the ideal lineup for each team based on their percentages
-
-
 
 
