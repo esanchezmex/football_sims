@@ -1,0 +1,7 @@
+1. Player percentage considers all career penalties, not only from shootouts were the distribution might be different.
+
+2. Use better method for imputing percentage of players with low sample size
+
+3. For the single shootout function, print each iteration with a sleep to visualize the shootout unfold in real-time.
+
+4. Create the optimized lineup: iteratively pick 5 players at random, for all possible orders for those 5 players create a scoring metric. This would be a combinatorial problem. Choose players and order that maximizes (or minimizes depending on the metric) the scoring parameters.
