@@ -10,27 +10,17 @@ arg_urls <- fb_player_urls("https://fbref.com/en/squads/f9fddd6e/Argentina-Men-S
 
 arg <- fb_player_season_stats(arg_urls, stat_type = "standard")
 
-# FINDING AVERAGE TO MAKE DEFAULT VAL
-arg_avg <- arg %>% 
-  group_by(player_name) %>% 
-  summarise(pens_made = sum(PK, na.rm = T),
-            pens_att = sum(PKatt, na.rm = T)) %>% 
-  filter(pens_att != 0) %>% 
-  mutate(pct = pens_made / pens_att) %>% 
-  pull(pct) %>% 
-  mean()
+# AVERAGE PENALTY xG (Industry Wide)
+pen_avg = 0.79
 
-arg_pens <- arg %>% 
-  group_by(player_name) %>% 
-  summarise(pens_made = sum(PK, na.rm = T),
-            pens_att = sum(PKatt, na.rm = T)) %>%
-  filter(pens_att != 0) %>% 
-  mutate(pct = pens_made / pens_att) %>% 
-  # ASK FOR DIFFERENT WAYS TO HANDLE SMALL SAMPLE SIZES, CONTINUE WITH ONE AND SAY WELCOME TO TRY OUT YOURSELF
-  mutate(pct = ifelse(pct == 1, arg_avg, pct)) %>% #method to handle small sample sizes
+arg_pens <- arg %>%
+  group_by(player_name) %>%
+  summarise(pens_made = sum(PK, na.rm = TRUE),
+            pens_att = sum(PKatt, na.rm = TRUE)) %>%
+  mutate(pct = ifelse(pens_att == 0, pen_avg, pens_made / pens_att)) %>%
+  mutate(pct = ifelse(pct == 1, pen_avg, pct)) %>%
+  mutate(pct = ifelse(pct == 0, pen_avg, pct)) %>% 
   arrange(desc(pct))
-
-# Usar xG penales general (media)
 
 
 
@@ -39,24 +29,17 @@ fra_urls <- fb_player_urls("https://fbref.com/en/squads/b1b36dcd/France-Men-Stat
 
 fra <- fb_player_season_stats(fra_urls, stat_type = "standard")
 
-# FINDING AVERAGE TO MAKE DEFAULT VAL
-fra_avg <- fra %>% 
-  group_by(player_name) %>% 
-  summarise(pens_made = sum(PK, na.rm = T),
-            pens_att = sum(PKatt, na.rm = T)) %>% 
-  filter(pens_att != 0) %>% 
-  mutate(pct = pens_made / pens_att) %>% 
-  pull(pct) %>% 
-  mean()
 
-fra_pens <- fra %>% 
-  group_by(player_name) %>% 
-  summarise(pens_made = sum(PK, na.rm = T),
-            pens_att = sum(PKatt, na.rm = T)) %>%
-  filter(pens_att != 0) %>% 
-  mutate(pct = pens_made / pens_att) %>% 
-  # ASK FOR DIFFERENT WAYS TO HANDLE SMALL SAMPLE SIZES, CONTINUE WITH ONE AND SAY WELCOME TO TRY OUT YOURSELF
-  mutate(pct = ifelse(pct == 1, fra_avg, pct)) %>% #method to handle small sample sizes
+# AVERAGE PENALTY xG (Industry Wide)
+pen_avg = 0.79
+
+fra_pens <- fra %>%
+  group_by(player_name) %>%
+  summarise(pens_made = sum(PK, na.rm = TRUE),
+            pens_att = sum(PKatt, na.rm = TRUE)) %>%
+  mutate(pct = ifelse(pens_att == 0, pen_avg, pens_made / pens_att)) %>%
+  mutate(pct = ifelse(pct == 1, pen_avg, pct)) %>%
+  mutate(pct = ifelse(pct == 0, pen_avg, pct)) %>% 
   arrange(desc(pct))
 
 
